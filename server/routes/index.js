@@ -1,8 +1,10 @@
-const indexRouter = require('./v1');
+const indexRouter = require('./api/v1');
+const htmlRouter  = require('./html/article');
 const express     = require('express');
 const router      = express.Router();
 
 router.use('/api/v1/', indexRouter);
+router.use("/", htmlRouter);
 router.get(
     '/',
     (req, res) =>

@@ -1,4 +1,4 @@
-const {addArticle} = require('../models/article');
+const {addArticle, getArticles} = require('../models/article');
 
 async function createArticle(req, res)
 {
@@ -19,4 +19,31 @@ async function createArticle(req, res)
 	}
 }
 
-module.exports = {createArticle};
+async function articles(req, res)
+{
+	try
+	{
+		const rows = await getArticles();
+		const data = [];
+
+		rows.forEach(
+		    (e) =>
+		    {
+			    const {id, title, body} = e;
+
+			    data.push({id, title, body});
+		    });
+		res.status(200).send({data});
+		// console.log(rows);
+	}
+	catch (e)
+	{
+		console.log("articles failed " + e);
+		/* handle error */
+	}
+}
+
+module.exports = {
+	createArticle,
+	articles
+};
