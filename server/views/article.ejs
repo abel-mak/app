@@ -2,15 +2,24 @@
 <html>
 	<head>
 		<title></title>
+		<link rel=stylesheet href="/css/index.css">
 	</head>
 	<body>
-		<% for(let i = 0; i < data.length; i++){%>
+		<ul>
+			<li>Home</li>
+			<li>News</li>
+			<li>Contact</li>
+			<li>About</li>
+		</ul>
 		<div class="container">
-			<div class="data">
-				<div><%= data[i].title %></div>
-				<div><%= data[i].body %></div>
+			<% for(let i = 0; i < data.length; i++){%>
+			<div class="article_container">
+				<div class="data">
+					<div class="title"><%= data[i].title %></div>
+					<div class="body"><%= data[i].body %></div>
+				</div>
 			</div>
+			<% } %>
 		</div>
-		<% } %>
 	</body>
 </html>
