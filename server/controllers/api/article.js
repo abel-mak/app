@@ -1,4 +1,5 @@
-const {addArticle, getArticles} = require('../models/article');
+const {addArticle, getArticles, updateArticle} =
+    require('../../models/article');
 
 async function createArticle(req, res)
 {
@@ -10,7 +11,7 @@ async function createArticle(req, res)
 		const insertId      = queryRes.insertId;
 
 		//	console.log(id);
-		console.log(queryRes);
+		//console.log(queryRes);
 		res.status(200).send({articleId: insertId});
 	}
 	catch (e)
@@ -38,12 +39,30 @@ async function articles(req, res)
 	}
 	catch (e)
 	{
-		console.log("articles failed " + e);
+		console.log('articles failed ' + e);
 		/* handle error */
 	}
 }
 
+async function editArticle(req, res)
+{
+	try
+	{
+		const {id, title, body} = req.body;
+		const row               = await updateArticle(id, title, body);
+
+		//console.log(row);
+		res.status(200).send({message: 'edited succesfuly'});
+	}
+	catch (e)
+	{
+		console.log('editArticle failed ' + e);
+	}
+}
+
+
 module.exports = {
 	createArticle,
-	articles
+	articles,
+	editArticle
 };

@@ -1,4 +1,4 @@
-const {add, remove, setSession, getSession} = require("../models/users");
+const {add, remove, setSession, getSession} = require("../../models/users");
 
 async function signUp(req, res)
 {

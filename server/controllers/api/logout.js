@@ -1,4 +1,4 @@
-const {destroySession} = require('../models/users');
+const {destroySession} = require('../../models/users');
 
 //TODO: logout by sessionId not by username
 

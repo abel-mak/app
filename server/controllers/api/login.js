@@ -1,4 +1,4 @@
-const {getSession, setSession} = require('../models/users');
+const {getSession, setSession} = require('../../models/users');
 
 async function login(req, res)
 {

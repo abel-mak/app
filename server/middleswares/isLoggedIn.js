@@ -25,6 +25,7 @@ async function isLoggedIn(req, res, next)
 	catch (e)
 	{
 		console.log('isLoggedIn failed ' + e);
+		res.status(500).send({error: "internal error"});
 	}
 }
 

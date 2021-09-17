@@ -1,21 +1,6 @@
-const router        = require('express').Router();
-const {getArticles} = require('../../models/article');
+const router     = require('express').Router();
+const {articles} = require('../../controllers/html/article');
 
-router.get(
-    '/article',
-    async (req, res) =>
-    {
-	    const rows = await getArticles();
-	    const data = [];
-
-
-	    rows.forEach(
-	        e =>
-	        {
-		        const {id, title, body} = e;
-		        data.push({id, title, body});
-	        });
-	    res.render('article', {data});
-    });
+router.get('/article', articles);
 
 module.exports = router;

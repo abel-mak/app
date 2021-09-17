@@ -18,8 +18,26 @@ async function getArticles()
 	return query(sql);
 }
 
+async function updateArticle(id, title, body)
+{
+	const sql    = 'UPDATE article SET ? WHERE id = ?';
+	const params = {title, body};
+
+	// console.log(mysql.format(sql, [params, id]));
+	return query(sql, [params, id]);
+}
+
+async function getArticleUserId(id)
+{
+	const sql    = 'SELECT user_id FROM article WHERE ?';
+	const params = {id};
+
+	return query(sql, [params]);
+}
 
 module.exports = {
 	addArticle,
-	getArticles
+	getArticles,
+	updateArticle,
+	getArticleUserId
 };

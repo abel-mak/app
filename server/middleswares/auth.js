@@ -8,7 +8,7 @@ async function auth(req, res, next)
 		const tmpUser              = await getUserByUserName(username);
 		const user                 = tmpUser == false ? undefined : tmpUser[0];
 
-		console.log(user, password);
+		// console.log(user, password);
 		if (!user)
 		{
 			res.status(404).send({error: 'user not found'});
