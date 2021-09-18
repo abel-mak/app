@@ -1,26 +1,21 @@
-const {getUserByUserName} = require('../models/users');
+const {checkUsername} = require('../utils/user');
+
+// if error set check variable in request
+// else set user variable in request
 
 async function auth(req, res, next)
 {
 	try
 	{
-		const {username, password} = req.body;
-		const tmpUser              = await getUserByUserName(username);
-		const user                 = tmpUser == false ? undefined : tmpUser[0];
+		const check = await checkUsername(req);
 
-		// console.log(user, password);
-		if (!user)
+		if (check.error)
 		{
-			res.status(404).send({error: 'user not found'});
-			return;
+			req.check = check;
+			next();
 		}
-		else if (user && password != user.password)
-		{
-			res.status(401).send({error: 'wrong password'});
-			return;
-		}
-		const {firstName, lastName, id} = user;
-		req.user                        = {username, firstName, lastName, id};
+		const {id, username, firstName, lastName} = check.user;
+		req.user = {username, firstName, lastName, id};
 		next();
 	}
 	catch (e)

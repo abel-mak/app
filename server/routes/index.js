@@ -1,5 +1,5 @@
-const indexRouter = require('./api/v1');
-const htmlRouter  = require('./html/article');
+const indexRouter = require('./api/v1/');
+const htmlRouter  = require('./html/');
 const express     = require('express');
 const router      = express.Router();
 
