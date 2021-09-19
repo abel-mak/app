@@ -11,10 +11,10 @@ async function postLogin(req, res)
 {
 	try
 	{
-		if (req.check)
+		if (req.authFailed)
 		{
-			loginError = req.check.error;
-			res.status(req.check.code).redirect(301, '/login');
+			loginError = req.authFailed.error;
+			res.status(req.authFailed.code).redirect(301, '/login');
 			return;
 		}
 		const {id} = req.user;

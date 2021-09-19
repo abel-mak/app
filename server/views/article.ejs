@@ -5,12 +5,7 @@
 		<link rel=stylesheet href="/css/index.css">
 	</head>
 	<body>
-		<ul>
-			<li>Home</li>
-			<li>News</li>
-			<li>Contact</li>
-			<li>About</li>
-		</ul>
+		<%- include('./components/header.ejs') %>
 		<div class="container">
 			<% for(let i = 0; i < data.length; i++){%>
 			<div class="article_container">

@@ -1,3 +1,7 @@
+body
+{
+	font-family:sans-serif;
+}
 .container
 {
 	margin-left:auto;
@@ -24,6 +28,19 @@
 .article-meta
 {
 	border-top: 1px solid;
+}
+header
+{
+	display:flex;
+	flex-direction:row;
+}
+.home
+{
+	flex:1;
+}
+.user-state
+{
+	border-left:1px solid white;
 }
 ul {
 	list-style-type: none;

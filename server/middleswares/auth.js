@@ -1,6 +1,6 @@
 const {checkUsername} = require('../utils/user');
 
-// if error set check variable in request
+// if error set authFailed variable in request
 // else set user variable in request
 
 async function auth(req, res, next)
@@ -11,8 +11,9 @@ async function auth(req, res, next)
 
 		if (check.error)
 		{
-			req.check = check;
+			req.authFailed = check;
 			next();
+			return;
 		}
 		const {id, username, firstName, lastName} = check.user;
 		req.user = {username, firstName, lastName, id};
