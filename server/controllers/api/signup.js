@@ -1,24 +1,23 @@
-const {add, remove, setSession, getSession} = require("../../models/users");
+const {add} = require('../../models/users');
 
 async function signUp(req, res)
 {
 	try
 	{
+		if (req.error)
+		{
+			res.status(400).send({error: req.error});
+			return;
+		}
 		const {firstName, lastName, username, password} = req.body;
+		const user = await add(firstName, lastName, username, password);
 
-		console.log(req.body.firstName);
-		const user = await add(firstName, lastName, username, password); 
-		const id = user.insertId;
-		const tmp = await setSession(id);
-		const row = await getSession(id);
-		
-		res.status(200).send({sessionId: row[0].sessionId});
-		console.log(row);
-		return res;
+		res.status(200).send({message: 'user created successfully'});
 	}
-	catch(e)
+	catch (e)
 	{
-		console.log("signup failed" + e);
+		console.log('signup failed' + e);
+		res.status(500);
 	}
 }
 

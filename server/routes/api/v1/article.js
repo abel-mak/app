@@ -8,4 +8,5 @@ const articleRouter = express.Router();
 articleRouter.post('/create', isLoggedIn, createArticle);
 articleRouter.post('/edit', isLoggedIn, permission, editArticle);
 articleRouter.get('/', articles);
+
 module.exports = articleRouter;

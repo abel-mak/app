@@ -7,8 +7,9 @@ function valideSignup(req, res, next)
 	    firstName.length == 0 || password.length == 0 || lastName.length == 0 ||
 	    username.length == 0)
 	{
-		res.status(400).send({error: 'missing required fields'});
-		return;
+		req.error = 'missing required fields';
+		// res.status(400).send({error: 'missing required fields'});
+		// return;
 	}
 	next();
 }

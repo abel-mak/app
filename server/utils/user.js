@@ -9,13 +9,17 @@ async function checkUsername(req)
 	// console.log(user, password);
 	if (!user)
 	{
-		error = 'user not found';
-		return {user, error, code: 404};
+		error         = {};
+		error.message = 'user not found';
+		error.code    = 404;
+		return {error};
 	}
 	else if (user && password != user.password)
 	{
-		error = 'wrong password';
-		return {user, error, code: 401};
+		error         = {};
+		error.message = 'wrong password';
+		error.code    = 401;
+		return {error};
 	}
 	return {user, error};
 }

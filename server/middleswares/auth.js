@@ -8,10 +8,11 @@ async function auth(req, res, next)
 	try
 	{
 		const check = await checkUsername(req);
+		const error = req.error || check.error;
 
-		if (check.error)
+		if (error)
 		{
-			req.authFailed = check;
+			req.error = error;
 			next();
 			return;
 		}

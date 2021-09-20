@@ -4,9 +4,9 @@ async function login(req, res)
 {
 	try
 	{
-		if (req.authFailed)
+		if (req.error)
 		{
-			res.status(req.authFailed.code).send({error: req.authFailed.error});
+			res.status(req.error.code).send({error: req.error.message});
 			return;
 		}
 		const {id} = req.user;

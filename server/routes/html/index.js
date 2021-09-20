@@ -1,10 +1,8 @@
-const router  = require('express').Router();
-const article = require('./article');
-const login   = require('./login');
-const signup  = require('./signup');
+const router     = require('express').Router();
+const article    = require('./article');
+const userRouter = require('./user');
 
 router.use('/article', article);
-router.use('/login', login);
-router.use('/signup', signup);
+router.use('/', userRouter);
 
 module.exports = router;
