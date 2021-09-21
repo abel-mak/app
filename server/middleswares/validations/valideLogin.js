@@ -1,7 +1,6 @@
 function valideLogin(req, res, next)
 {
 	const {username, password} = req.body;
-	let error                  = undefined;
 
 	if ((typeof username != 'string' || typeof password != 'string') ||
 	    username.length == 0 || password.length == 0)

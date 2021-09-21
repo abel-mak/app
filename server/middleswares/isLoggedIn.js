@@ -9,13 +9,17 @@ async function isLoggedIn(req, res, next)
 
 		if (row == false)
 		{
-			res.status(401).send({error: 'Unauthorized'});
+			req.error = {code: 401, message: 'Unauthorized'};
+			// res.status(401).send({error: 'Unauthorized'});
+			next();
 			return;
 		}
 		const isValid = await isValidSession(sessionId);
 		if (isValid == false || isValid.result == false)
 		{
-			res.status(401).send({error: 'Unauthorized'});
+			req.error = {code: 401, message: 'Unauthorized'};
+			// res.status(401).send({error: 'Unauthorized'});
+			next();
 			return;
 		}
 		const {id, firstName, lastName, username} = row[0];
@@ -25,7 +29,9 @@ async function isLoggedIn(req, res, next)
 	catch (e)
 	{
 		console.log('isLoggedIn failed ' + e);
-		res.status(500).send({error: "internal error"});
+		//res.status(500).send({error: 'internal error'});
+		req.error = {code: 500, message: "internal error"};
+		next();
 	}
 }
 

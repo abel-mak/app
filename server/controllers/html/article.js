@@ -6,6 +6,7 @@ async function articles(req, res)
 	{
 		const rows = await getArticles();
 		const data = [];
+		const user = req.user;
 
 		rows.forEach(
 		    e =>
@@ -13,7 +14,7 @@ async function articles(req, res)
 			    const {id, title, body} = e;
 			    data.push({id, title, body});
 		    });
-		res.render('article', {data});
+		res.render('article', {data, user});
 	}
 	catch (e)
 	{

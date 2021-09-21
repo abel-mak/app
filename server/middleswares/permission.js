@@ -4,16 +4,31 @@ async function permission(req, res, next)
 {
 	try
 	{
+		const error = req.error;
+		if (error)
+		{
+			next();
+			return;
+		}
 		const user_id = req.user.id;
 		const {id}    = req.body;
 		const row     = await getArticleUserId(id);
 
 		if (row == false)
-			res.status(404).send({error: 'no article by this id'});
+		{
+			req.error = {code: 404, message: 'no article by this id'};
+			next();
+			// res.status(404).send({error: 'no article by this id'});
+			return;
+		}
 		if (row[0] && row[0].user_id == user_id)
 			next();
 		else
-			res.status(401).send({error: 'Unauthorized action'});
+		{
+			req.error = {code: 401, error: 'permisson needed'};
+			// res.status(401).send({error: 'permisson needed'});
+			next();
+		}
 	}
 	catch (e)
 	{

@@ -7,6 +7,6 @@ const valideLogin = require('../../middleswares/validations/valideLogin');
 userRouter.get('/signup', getSignup);
 userRouter.post('/signup', postSignup);
 userRouter.get('/login', getLogin);
-userRouter.post('/login', auth, postLogin);
+userRouter.post('/login', valideLogin, auth, postLogin);
 
 module.exports = userRouter;

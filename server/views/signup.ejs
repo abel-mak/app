@@ -3,7 +3,7 @@
 	<link rel="stylesheet" href="css/form.css">
 </head>
 </body>
-<%- include('./components/header.ejs') %>
+<%- include('./components/header.ejs', {user:undefined}) %>
 <div class="container">
 	<form method="POST" action="/signup" autocomplete="off">
 		<div>
