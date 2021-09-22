@@ -1,7 +1,7 @@
-const {add}                    = require('../../models/users');
-const {getSession, setSession} = require('../../models/users');
-let loginError                 = false;
-let signupError                = false;
+const {add, getSession, setSession, destroySession} =
+    require('../../models/users');
+let loginError  = false;
+let signupError = false;
 
 function getLogin(req, res)
 {
@@ -19,7 +19,6 @@ async function postLogin(req, res)
 			res.status(req.error.code).redirect(301, '/login');
 			return;
 		}
-		console.log(req.user);
 		const {id} = req.user;
 		const tmp  = await setSession(id);
 		const row  = await getSession(id);
@@ -41,14 +40,14 @@ function getSignup(req, res)
 
 async function postSignup(req, res)
 {
-	if (req.error)
-	{
-		signupError = req.error;
-		res.redirect(301, '/signup');
-		return;
-	}
 	try
 	{
+		if (req.error)
+		{
+			signupError = req.error;
+			res.redirect(301, '/signup');
+			return;
+		}
 		const {firstName, lastName, username, password} = req.body;
 		const user = await add(firstName, lastName, username, password);
 
@@ -61,9 +60,31 @@ async function postSignup(req, res)
 	}
 }
 
+async function postLogout(req, res)
+{
+	try
+	{
+		const error = req.error;
+		if (error)
+		{
+			throw new Error(error.message);
+		}
+		const {sessionId} = req.cookies;
+
+		await destroySession(sessionId);
+		res.redirect(301, '/article');
+	}
+	catch (e)
+	{
+		console.log('postLogout failed ' + e);
+		res.status(500);
+	}
+}
+
 module.exports = {
 	getSignup,
 	postSignup,
 	getLogin,
-	postLogin
+	postLogin,
+	postLogout
 };

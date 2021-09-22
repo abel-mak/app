@@ -6,21 +6,21 @@ async function logout(req, res)
 {
 	try
 	{
-		const error      = req.error;
+		const error = req.error;
 		if (error)
 		{
 			res.status(error.code).send({error: error.message});
 			return;
 		}
-		const {username} = req.body;
-		
-		await destroySession(username);
+		const {sessionId} = req.cookies;
+
+		await destroySession(sessionId);
 		res.status(200).send({message: 'successfuly logged out'});
 	}
 	catch (e)
 	{
-		console.log("logout failed " + e);
-		res.status(500).send({error: "internal error"});
+		console.log('logout failed ' + e);
+		res.status(500).send({error: 'internal error'});
 	}
 }
 

@@ -48,13 +48,13 @@ async function getUserByUserName(username)
 	return query(sql, [params]);
 }
 
-async function destroySession(username)
+async function destroySession(sessionId)
 {
-	const sql    = 'UPDATE user SET ? WHERE username = ?';
+	const sql    = 'UPDATE user SET ? WHERE sessionId = ?';
 	const params = {sessionId: null, expires: null};
 
 	// console.log(mysql.format(sql, [params, username]));
-	return query(sql, [params, username]);
+	return query(sql, [params, sessionId]);
 }
 
 async function getUserBySessionId(sessionId)
@@ -62,7 +62,7 @@ async function getUserBySessionId(sessionId)
 	const sql    = 'SELECT * FROM user WHERE ?';
 	const params = {sessionId};
 
-	//console.log(mysql.format(sql, [params]));
+	// console.log(mysql.format(sql, [params]));
 	return query(sql, [params]);
 }
 
@@ -71,7 +71,7 @@ async function isValidSession(sessionId)
 	const sql    = 'SELECT expires > now() AS result FROM user WHERE ?';
 	const params = {sessionId};
 
-	//console.log(mysql.format(sql, [params]));
+	// console.log(mysql.format(sql, [params]));
 	return query(sql, [params]);
 }
 

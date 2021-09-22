@@ -7,7 +7,32 @@
 		<li><a href="/login">Login</a></li>
 		<li><a href= "/signup">Signup</a></li>
 		<%if (user) { %>
-		<li>Logout</li> 
+		<li><a class="logout-button">Logout</a></li> 
 		<% } %>
-	<ul>
+	</ul>
 </header>
+<% if (user) { %>
+<script>
+	const logoutButton = document.querySelector('a.logout-button');
+
+	logoutButton.addEventListener('click', 
+		(e) => 
+		{
+			fetch("/logout", {method:"POST", redirect: "follow"})
+				.then(
+					res => 
+					{
+						if (res.redirected) 
+						{
+							window.location.href = res.url;
+						}
+					});
+		});
+</script>
+<style>
+.logout-button
+{
+	cursor: pointer;
+}
+</style>
+<% } %>
