@@ -19,3 +19,5 @@ app.use(router);
 app.use(express.static(path.join(__dirname, "./static")));
 
 app.listen(3000, () => console.log('listen on 3000'));
+
+module.exports = app;
