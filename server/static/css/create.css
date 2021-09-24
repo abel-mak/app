@@ -1,0 +1,39 @@
+form
+{
+	margin:2em;
+	flex-basis:100%;
+	width:100%;
+}
+.container
+{
+	height:100%;
+}
+.title
+{
+	margin:0;
+	font-weight:550;
+	font-size:x-large;
+	width:100%;	
+}
+textarea, input
+{
+	font-family:inherit;
+
+}
+.form-container
+{
+	margin:2em;
+	display:flex;
+	flex-wrap:wrap;
+	height:50%;
+	border:2px solid black;
+}
+
+.body
+{
+	flex-basis:100%;
+	width:80%;
+	resize:none;
+	font-size:medium;
+	height:50%;
+}

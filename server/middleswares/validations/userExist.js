@@ -11,7 +11,7 @@ async function userExist(req, res, next)
 	const tmpUser    = await getUserByUserName(username);
 	if (tmpUser != false)
 	{
-		req.userExistFailed = 'user already exist';
+		req.error = {code: 400, message: 'user already exist'};
 		// res.status(400).send({error: 'user already exist'});
 		// return;
 	}

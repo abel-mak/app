@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./server/tests/login.spec.js --exit",
+    "test": "mocha ./server/tests/index.spec.js --exit",
     "dev": "nodemon server/app.js"
   },
   "keywords": [],

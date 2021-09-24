@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/css/create.css">
+</head>
+<body>
+	<%- include("../components/header.ejs", {user:undefined}) %>
+	<div class="container">
+		<div class="form-container">
+			<form id="create">
+				<input class="title"type="text" name="title" placeholder="Title...">
+			</form>
+			<textarea placeholder="Body..." class="body" name="body" form="create"></textarea>
+			<button type="submit" form="create">submit</button>
+		</div>
+	</div>
+</body>
+</html>

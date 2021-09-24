@@ -14,7 +14,7 @@ async function articles(req, res)
 			    const {id, title, body} = e;
 			    data.push({id, title, body});
 		    });
-		res.render('article', {data, user});
+		res.render('article/article', {data, user});
 	}
 	catch (e)
 	{
@@ -23,4 +23,12 @@ async function articles(req, res)
 	}
 }
 
-module.exports = {articles};
+async function getCreate(req, res)
+{
+	res.render('article/create');
+}
+
+module.exports = {
+	articles,
+	getCreate
+};

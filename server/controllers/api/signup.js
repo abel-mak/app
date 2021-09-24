@@ -4,9 +4,10 @@ async function signUp(req, res)
 {
 	try
 	{
-		if (req.error)
+		const error = req.error;
+		if (error)
 		{
-			res.status(400).send({error: req.error});
+			res.status(error.code).send({error: error.message});
 			return;
 		}
 		const {firstName, lastName, username, password} = req.body;

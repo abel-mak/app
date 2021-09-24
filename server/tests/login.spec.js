@@ -6,7 +6,7 @@ const {expect} = chai;
 chai.use(chaiHttp);
 
 describe(
-    'user login',
+    'test user login',
     function()
     {
 	    it('should return error as user doesn\'t exist',

@@ -5,7 +5,7 @@ let signupError = false;
 
 function getLogin(req, res)
 {
-	res.render('login', {error: loginError});
+	res.render('user/login', {error: loginError});
 	loginError = false;
 }
 
@@ -34,7 +34,7 @@ async function postLogin(req, res)
 
 function getSignup(req, res)
 {
-	res.render('signup', {error: signupError});
+	res.render('user/signup', {error: signupError});
 	signupError = false;
 }
 
