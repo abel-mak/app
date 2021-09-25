@@ -45,7 +45,7 @@ async function postSignup(req, res)
 		if (req.error)
 		{
 			signupError = req.error;
-			res.redirect(301, '/signup');
+			res.redirect(301, '/auth/signup');
 			return;
 		}
 		const {firstName, lastName, username, password} = req.body;

@@ -9,7 +9,7 @@
 	<%- include("../components/header.ejs", {user:undefined}) %>
 	<div class="container">
 		<div class="form-container">
-			<form id="create">
+			<form id="create" method="POST" action="/article/create">
 				<input class="title"type="text" name="title" placeholder="Title...">
 			</form>
 			<textarea placeholder="Body..." class="body" name="body" form="create"></textarea>

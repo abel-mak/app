@@ -1,4 +1,4 @@
-const {getArticleUserId} = require('../models/article');
+const {getArticleById} = require('../models/article');
 
 async function permission(req, res, next)
 {
@@ -12,7 +12,7 @@ async function permission(req, res, next)
 		}
 		const user_id = req.user.id;
 		const {id}    = req.body;
-		const row     = await getArticleUserId(id);
+		const row     = await getArticleById(id);
 
 		if (row == false)
 		{

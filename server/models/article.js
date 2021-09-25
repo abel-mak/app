@@ -27,9 +27,9 @@ async function updateArticle(id, title, body)
 	return query(sql, [params, id]);
 }
 
-async function getArticleUserId(id)
+async function getArticleById(id)
 {
-	const sql    = 'SELECT user_id FROM article WHERE ?';
+	const sql    = 'SELECT * FROM article WHERE ?';
 	const params = {id};
 
 	return query(sql, [params]);
@@ -39,5 +39,5 @@ module.exports = {
 	addArticle,
 	getArticles,
 	updateArticle,
-	getArticleUserId
+	getArticleById
 };
