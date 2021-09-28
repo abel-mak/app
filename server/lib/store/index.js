@@ -20,36 +20,53 @@ module.exports = function(session)
 		{
 			try
 			{
-				const sql =
-				    'SELECT data WHERE session_id = ? AND expires > UNIX_TIMESTAMP()';
-				const params = sid;
-				const row    = await query(sql, [params]);
-				let session  = (row != false) ? JSON.parse(row[0]) : null;
+				const sql = 'SELECT data FROM sessions ' +
+				    'WHERE session_id = ? AND expires > UNIX_TIMESTAMP()';
+				const params  = sid;
+				const row     = await query(sql, [params]);
+				const session = (row != false) ? JSON.parse(row[0].data) : null;
 
 				callback(null, session);
 			}
 			catch (e)
 			{
+				console.log({func: 'set', e});
 				callback(e);
 			}
 		}
-		async set(sid, session, callback = noop)
+		async set(sid, session = {}, callback = noop)
 		{
 			try
 			{
 				const sql =
-				    'INSERT INTO session (session_id, expires, data) VALUES ?';
-				const expires = (data.cookie && session.cookie.expires) ?
+				    'INSERT INTO sessions (session_id, expires, data) VALUES ? ' +
+				    'ON DUPLICATE KEY UPDATE expires=VALUES(expires), data=VALUES(data)';
+				const expires = (session.cookie && session.cookie.expires) ?
                     Math.ceil(session.cookie.expires / 1000) :
                     mysql.raw(`UNIX_TIMESTAMP() + ${this.expirationInterval}`);
 				const data = JSON.stringify(session);
 				const params  = [[sid, expires, data]];
-				const row     = await query(sql, [params]);
+				await query(sql, [params]);
 
 				callback(null);
 			}
 			catch (e)
 			{
+				console.log({func: 'set', e});
+				callback(e);
+			}
+		}
+		async destroy(sid, callback = noop)
+		{
+			try
+			{
+				const sql    = 'DELETE FROM sessions WHERE ?';
+				const params = {session_id: sid};
+				await query(sql, [params]);
+			}
+			catch (e)
+			{
+				console.log({func: 'destroy', e});
 				callback(e);
 			}
 		}
