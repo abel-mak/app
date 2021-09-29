@@ -15,6 +15,24 @@ module.exports = function(session)
 		{
 			super(options);
 			this.expirationInterval = 86400;  // One day in seconds.
+			this.event();
+		}
+		async event()
+		{
+			try
+			{
+				await query('SET GLOBAL event_scheduler = ON; ');
+				const sql =
+				    'CREATE EVENT IF NOT EXISTS remove_expired_session ' +
+				    ' ON SCHEDULE EVERY 1 MINUTE ' +
+				    ' DO ' +
+				    ' DELETE FROM sessions WHERE expires < UNIX_TIMESTAMP()';
+				await query(sql);
+			}
+			catch (e)
+			{
+				console.log(e);
+			}
 		}
 		async get(sid, callback)
 		{
@@ -30,7 +48,7 @@ module.exports = function(session)
 			}
 			catch (e)
 			{
-				console.log({func: 'set', e});
+				console.log({func: 'get', e});
 				callback(e);
 			}
 		}
