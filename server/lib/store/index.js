@@ -1,5 +1,5 @@
-const {mysql, query} = require('../../models/mysql');
-
+const {query} = require('../../models/mysql');
+const mysql   = require('mysql');
 // convert date to seconds UNIX_TIMESTAMP(date) returns unsigned integer
 // convert seconds to date FROM_UNIXTIME (seconds) return date
 
@@ -59,11 +59,14 @@ module.exports = function(session)
 				const sql =
 				    'INSERT INTO sessions (session_id, expires, data) VALUES ? ' +
 				    'ON DUPLICATE KEY UPDATE expires=VALUES(expires), data=VALUES(data)';
-				const expires = (session.cookie && session.cookie.expires) ?
+				this.expirationInterval =
+				    (session.cookie && session.cookie.expires) ?
                     Math.ceil(session.cookie.expires / 1000) :
-                    mysql.raw(`UNIX_TIMESTAMP() + ${this.expirationInterval}`);
-				const data = JSON.stringify(session);
-				const params  = [[sid, expires, data]];
+                    this.expirationInterval;
+				const expires =
+				    mysql.raw(`UNIX_TIMESTAMP() + ${this.expirationInterval}`);
+				const data   = JSON.stringify(session);
+				const params = [[sid, expires, data]];
 				await query(sql, [params]);
 
 				callback(null);
