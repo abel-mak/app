@@ -59,16 +59,16 @@ module.exports = function(session)
 				const sql =
 				    'INSERT INTO sessions (session_id, expires, data) VALUES ? ' +
 				    'ON DUPLICATE KEY UPDATE expires=VALUES(expires), data=VALUES(data)';
-				this.expirationInterval =
+				const expirationInterval =
 				    (session.cookie && session.cookie.expires) ?
-                    Math.ceil(session.cookie.expires / 1000) :
+                    this.getIntervalInSeconds(session.cookie.expires) :
                     this.expirationInterval;
+				// console.log(this.expirationInterval);
 				const expires =
-				    mysql.raw(`UNIX_TIMESTAMP() + ${this.expirationInterval}`);
+				    mysql.raw(`UNIX_TIMESTAMP() + ${expirationInterval}`);
 				const data   = JSON.stringify(session);
 				const params = [[sid, expires, data]];
 				await query(sql, [params]);
-
 				callback(null);
 			}
 			catch (e)
@@ -84,10 +84,39 @@ module.exports = function(session)
 				const sql    = 'DELETE FROM sessions WHERE ?';
 				const params = {session_id: sid};
 				await query(sql, [params]);
+
+				callback(null);
 			}
 			catch (e)
 			{
 				console.log({func: 'destroy', e});
+				callback(e);
+			}
+		}
+		getIntervalInSeconds(date)
+		{
+			const res = (Date.parse(date) - Date.parse(new Date())) / 1000;
+			return (res > 0) ? res : 0;
+		}
+		async touch(session_id, session = {}, callback = noop)
+		{
+			try
+			{
+				const sql = 'UPDATE sessions SET ? WHERE ?';
+				const expirationInterval =
+				    (session.cookie && session.cookie.expires) ?
+                    this.getIntervalInSeconds(session.cookie.expires) :
+                    this.expirationInterval;
+				const expires =
+				    mysql.raw(`UNIX_TIMESTAMP() + ${expirationInterval}`);
+				const params = [{expires}, {session_id}];
+				await query(sql, params);
+
+				callback(null);
+			}
+			catch (e)
+			{
+				console.log({func: 'touch', e});
 				callback(e);
 			}
 		}
