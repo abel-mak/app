@@ -10,7 +10,7 @@ app.use(session({
 	store: new MysqlStore(),
 	secret: 'this is a secret',
 	name: '22',
-	cookie: {maxAge:60000},
+	cookie: {maxAge: 60000},
 	resave: false,
 	saveUninitialized: false
 }));
@@ -22,7 +22,6 @@ app.get(
     '/',
     function(req, res)
     {
-	    console.log('=====================');
 	    req.flash('message', 'this is message from');
 	    res.redirect(302, '/contact');
     });
