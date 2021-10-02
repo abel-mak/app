@@ -1,5 +1,5 @@
-const {query} = require('../../models/mysql');
-const mysql   = require('mysql');
+const {query2} = require('./mysql');
+const mysql    = require('mysql');
 // convert date to seconds UNIX_TIMESTAMP(date) returns unsigned integer
 // convert seconds to date FROM_UNIXTIME (seconds) return date
 
@@ -21,27 +21,28 @@ module.exports = function(session)
 		{
 			try
 			{
-				await query('SET GLOBAL event_scheduler = ON; ');
+				await query2('SET GLOBAL event_scheduler = ON; ');
 				const sql =
 				    'CREATE EVENT IF NOT EXISTS remove_expired_session ' +
 				    ' ON SCHEDULE EVERY 1 MINUTE ' +
 				    ' DO ' +
 				    ' DELETE FROM sessions WHERE expires < UNIX_TIMESTAMP()';
-				await query(sql);
+				await query2(sql);
 			}
 			catch (e)
 			{
 				console.log(e);
 			}
 		}
-		async get(sid, callback)
+		async get(session_id, callback)
 		{
 			try
 			{
 				const sql = 'SELECT data FROM sessions ' +
-				    'WHERE session_id = ? AND expires > UNIX_TIMESTAMP()';
-				const params  = sid;
-				const row     = await query(sql, [params]);
+				    'WHERE ? AND expires > UNIX_TIMESTAMP()';
+				const params = {session_id};
+				//console.log(mysql.format(sql, [params]));
+				const row     = await query2(sql, [params]);
 				const session = (row != false) ? JSON.parse(row[0].data) : null;
 
 				callback(null, session);
@@ -68,7 +69,9 @@ module.exports = function(session)
 				    mysql.raw(`UNIX_TIMESTAMP() + ${expirationInterval}`);
 				const data   = JSON.stringify(session);
 				const params = [[sid, expires, data]];
-				await query(sql, [params]);
+				// console.log(mysql.format(sql, params));
+
+				await query2(sql, [params]);
 				callback(null);
 			}
 			catch (e)
@@ -83,7 +86,7 @@ module.exports = function(session)
 			{
 				const sql    = 'DELETE FROM sessions WHERE ?';
 				const params = {session_id: sid};
-				await query(sql, [params]);
+				await query2(sql, [params]);
 
 				callback(null);
 			}
@@ -110,7 +113,7 @@ module.exports = function(session)
 				const expires =
 				    mysql.raw(`UNIX_TIMESTAMP() + ${expirationInterval}`);
 				const params = [{expires}, {session_id}];
-				await query(sql, params);
+				await query2(sql, params);
 
 				callback(null);
 			}

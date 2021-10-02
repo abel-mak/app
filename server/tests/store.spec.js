@@ -126,7 +126,7 @@ app.get(
 
 app.listen(8080);
 
-describe(
+ describe(
     'test lib/store',
     function()
     {
