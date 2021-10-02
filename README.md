@@ -13,24 +13,24 @@ and this how flash message works, first call set to write message second get the
 and here how it looks like in mysql logs<br>
 
 ```
-INSERT INTO sessions (session_id, expires, data) VALUES '_b3de94Y9cf3BlbX4zU2bj7EgxNbs1_T',<br>
+INSERT INTO sessions (session_id, expires, data) VALUES '_b3de94Y9cf3BlbX4zU2bj7EgxNbs1_T',
 
- UNIX_TIMESTAMP() + 59, '{\"cookie\":{\"originalMaxAge\":60000,\"expires\":<br>
+ UNIX_TIMESTAMP() + 59, '{\"cookie\":{\"originalMaxAge\":60000,\"expires\":
 
- \"2021-10-02T09:31:10.995Z\",\"httpOnly\":true,\"path\":\"/\"},\"flash\":<br>
+ \"2021-10-02T09:31:10.995Z\",\"httpOnly\":true,\"path\":\"/\"},\"flash\":
 
- {\"message\":[\"this is message from\"]}}' ON DUPLICATE KEY UPDATE expires=VALUES(expires), data=VALUES(data)<br>
+ {\"message\":[\"this is message from\"]}}' ON DUPLICATE KEY UPDATE expires=VALUES(expires), data=VALUES(data)
 
-SELECT data FROM sessions WHERE `session_id` = '_b3de94Y9cf3BlbX4zU2bj7EgxNbs1_T' AND expires > UNIX_TIMESTAMP()<br>
+SELECT data FROM sessions WHERE `session_id` = '_b3de94Y9cf3BlbX4zU2bj7EgxNbs1_T' AND expires > UNIX_TIMESTAMP()
 
-INSERT INTO sessions (session_id, expires, data) VALUES '_b3de94Y9cf3BlbX4zU2bj7EgxNbs1_T',<br>
+INSERT INTO sessions (session_id, expires, data) VALUES '_b3de94Y9cf3BlbX4zU2bj7EgxNbs1_T',
 
- UNIX_TIMESTAMP() + 60, '{\"cookie\":{\"originalMaxAge\":60000,\"expires\":<br>
+ UNIX_TIMESTAMP() + 60, '{\"cookie\":{\"originalMaxAge\":60000,\"expires\":
 
- \"2021-10-02T09:31:11.059Z\",\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}' <br>
+ \"2021-10-02T09:31:11.059Z\",\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}' 
 
- ON DUPLICATE KEY UPDATE expires=VALUES(expires), data=VALUES(data)<br>
+ ON DUPLICATE KEY UPDATE expires=VALUES(expires), data=VALUES(data)
 
 ```
 the solution was to make another pool for MysqlStore and set connectionLimit to 1
-instead of 10 for app pool 
+instead of 10 like app pool 
