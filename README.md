@@ -1,9 +1,9 @@
 ###### NOTES
 ### flash with session
-i was using the same mysql pool for the app(storing date) and for express-session store, and i faced an issue when using flash. sometimes the message<br>
-i was flashing doesn't appear to frontend, after struggling trying to findout what was the problem, i found out that the set and get methods in MysqlStore were in race condition so one will win the race before the other. the problem was when get method go before the set gets empty message which is logic because,<br>
-nothing is inserted yet, and this how flash message works, firstly call the set to write message, secondly get the message then set message to empty.<br>
-and here how it looks like in mysql logs<br>
+i was using the same mysql pool for the app(storing date) and for express-session store, and i faced an issue when using flash. sometimes the message
+i was flashing doesn't appear to frontend, after struggling trying to findout what was the problem, i found out that the set and get methods in MysqlStore were in race condition so one will win the race before the other. the problem was when get method go before the set gets empty message which is logic because,
+nothing is inserted yet, and this how flash message works, firstly call the set to write message, secondly get the message then set message to empty.
+and here how it looks like in mysql logs
 ```
 INSERT INTO sessions (session_id, expires, data) VALUES '_b3de94Y9cf3BlbX4zU2bj7EgxNbs1_T',
 
