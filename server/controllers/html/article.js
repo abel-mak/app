@@ -15,7 +15,7 @@ async function articles(req, res)
 			    const {id, title, body} = e;
 			    data.push({id, title, body});
 		    });
-		res.render('article/article', {data, user});
+		res.render('article/article', {data, user, error: req.flash('error')});
 	}
 	catch (e)
 	{
@@ -40,7 +40,7 @@ async function articleById(req, res)
 		if (row != false)
 		{
 			const {title, body} = row[0];
-			res.render('article/articleById', {title, body});
+			res.render('article/articleById', {title, body, error: req.flash("error")});
 		}
 		else
 		{
@@ -63,12 +63,15 @@ async function getCreate(req, res)
 		if (error)
 		{
 			if (error.code == 401)
+			{
+				req.flash('error', error.message);
 				res.redirect(302, '/auth/login');
+			}
 			else
 				throw new Error(error);
 		}
 		else
-			res.render('article/create');
+			res.render('article/create', {error: req.flash('error')});
 	}
 	catch (e)
 	{
@@ -84,6 +87,7 @@ async function postCreate(req, res)
 		const error = req.error;
 		if (error)
 		{
+			req.flash('error', error.message);
 			res.redirect(302, '/article/create');
 			return;
 		}

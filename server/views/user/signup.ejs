@@ -1,16 +1,12 @@
 <head>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/index.css">
 	<link rel="stylesheet" href="/css/form.css">
 </head>
 </body>
-<%- include('../components/header.ejs', {user:undefined}) %>
+<%- include('../components/header.ejs', {user:undefined, error}) %>
 <div class="container">
-	<form method="POST" action="/signup" autocomplete="off">
-		<div>
-			<% if (error) {%>
-			<p>username or password are incorrect</p>
-			<%}%>
-		</div>
+	<form method="POST" action="/auth/signup" autocomplete="off">
 		<label for"firstName">firstName</label>
 		<input type="text" name="firstName" required>
 		<label for="lastName">lastName</label>

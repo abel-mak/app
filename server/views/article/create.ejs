@@ -2,14 +2,15 @@
 <html>
 <head>
 <title></title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/index.css">
 <link rel="stylesheet" href="/css/create.css">
 </head>
 <body>
-	<%- include("../components/header.ejs", {user:undefined}) %>
+	<%- include("../components/header.ejs", {user:undefined, error}) %>
 	<div class="container">
 		<div class="form-container">
-			<form id="create" method="POST" action="/article/create">
+			<form class="my-create" id="create" method="POST" action="/article/create">
 				<input class="title"type="text" name="title" placeholder="Title...">
 			</form>
 			<textarea placeholder="Body..." class="body" name="body" form="create"></textarea>

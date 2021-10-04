@@ -1,12 +1,9 @@
 const {add, getSession, setSession, destroySession} =
     require('../../models/users');
-let loginError  = false;
-let signupError = false;
 
 function getLogin(req, res)
 {
-	res.render('user/login', {error: loginError});
-	loginError = false;
+	res.render('user/login', {error: req.flash('error')});
 }
 
 async function postLogin(req, res)
@@ -15,8 +12,8 @@ async function postLogin(req, res)
 	{
 		if (req.error)
 		{
-			loginError = req.error.message;
-			res.status(req.error.code).redirect(301, '/login');
+			req.flash('error', req.error.message);
+			res.status(req.error.code).redirect(301, '/auth/login');
 			return;
 		}
 		const {id} = req.user;
@@ -34,17 +31,18 @@ async function postLogin(req, res)
 
 function getSignup(req, res)
 {
-	res.render('user/signup', {error: signupError});
-	signupError = false;
+	res.render('user/signup', {error: req.flash('error')});
 }
 
 async function postSignup(req, res)
 {
 	try
 	{
-		if (req.error)
+		const error = req.error;
+
+		if (error)
 		{
-			signupError = req.error;
+			req.flash('error', error.message);
 			res.redirect(301, '/auth/signup');
 			return;
 		}

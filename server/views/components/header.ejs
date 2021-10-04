@@ -1,3 +1,6 @@
+<!--<div class="notifications-flash-top-bar">
+	 <div class="alert fade in alert-danger">Invalid Login or password.</div> 
+</div>
 <header>
 	<ul class="home">
 		<li><a href="/article">Home </a></li>
@@ -10,15 +13,73 @@
 		<li><a class="logout-button">Logout</a></li> 
 		<% } %>
 	</ul>
-</header>
+</header>-->
+<% if (error.length){ %>
+<div class="alert alert-dismissible alert-danger">
+  <strong>Oh snap!</strong> 
+  <a href="#" class="alert-link"><%= error%></a> 
+</div>
+<%}%>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid" id="css-navbar">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+		data-bs-target="#navbarColor01" aria-controls="navbarColor01" 
+		aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto" id="css-nav-items">
+        <li class="nav-item">
+          <a class="nav-link active" href="/article">Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">News</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" 
+			  href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+          </div>
+        </li>
+      </ul>
+      <form id="css-search" class="d-flex">
+        <input class="form-control me-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+	  <ul class="navbar-nav" id="css-nav-items">
+        <li class="nav-item">
+          <a class="nav-link active" href="/auth/login">Login
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/auth/signup">Signup
+          </a>
+        </li>
+		<%if (user) { %>
+        <li class="nav-item">
+          <a class="nav-link active logout-button" >Logout
+          </a>
+        </li>
+		<% } %>
+    </ul>
+    </div>
+  </div>
+</nav>
 <% if (user) { %>
 <script>
 	const logoutButton = document.querySelector('a.logout-button');
-
 	logoutButton.addEventListener('click', 
 		(e) => 
 		{
-			fetch("/logout", {method:"POST", redirect: "follow"})
+			fetch("/auth/logout", {method:"POST", redirect: "follow"})
 				.then(
 					res => 
 					{
@@ -29,10 +90,21 @@
 					});
 		});
 </script>
+<%}%>
+<% if (error.length) { %>
+<script>
+	const notif = document.querySelector(".alert-danger");
+	const height = document.querySelector(".container-fluid").offsetHeight;
+
+	setTimeout(function ()
+		{
+			notif.style.top = height * -1;
+		}, 2000);
+</script>
+<% } %>
 <style>
 .logout-button
 {
 	cursor: pointer;
 }
 </style>
-<% } %>
