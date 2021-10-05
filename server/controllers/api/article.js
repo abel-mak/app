@@ -1,4 +1,4 @@
-const {addArticle, getArticles, updateArticle} =
+const {addArticle, getArticles, updateArticle, getArticleById} =
     require('../../models/article');
 
 async function createArticle(req, res)
@@ -52,6 +52,36 @@ async function articles(req, res)
 	}
 }
 
+async function articleById(req, res)
+{
+	try
+	{
+		const error = req.error;
+		const id    = req.id;
+		if (error || !id)
+		{
+			res.status(404).send({error: 'Not Found'});
+			return;
+		}
+		const row = await getArticleById(id);
+
+		if (row != false)
+		{
+			const {title, body} = row[0];
+			res.status(200).send({title, body});
+		}
+		else
+		{
+			res.status(404).send({error: 'Not Found'});
+		}
+	}
+	catch (e)
+	{
+		console.log('articleById failed ' + e);
+		res.status(500);
+	}
+}
+
 async function editArticle(req, res)
 {
 	try
@@ -78,5 +108,6 @@ async function editArticle(req, res)
 module.exports = {
 	createArticle,
 	articles,
-	editArticle
+	editArticle,
+	articleById
 };

@@ -86,12 +86,12 @@ a
 }
 nav > div
 {
-	height:60px;
+	height:55px;
 }
 nav, .navbar-nav
 {
 	background: #f0f8ff00;
-	height:60px
+	height:55px
 }
 nav, a
 {

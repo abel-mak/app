@@ -40,7 +40,9 @@ async function articleById(req, res)
 		if (row != false)
 		{
 			const {title, body} = row[0];
-			res.render('article/articleById', {title, body, error: req.flash("error")});
+			res.render(
+			    'article/articleById',
+			    {title, body, error: req.flash('error')});
 		}
 		else
 		{
@@ -107,9 +109,35 @@ async function postCreate(req, res)
 	}
 }
 
+async function getEdit(req, res)
+{
+	try
+	{
+		const id  = req.query.id;
+		const row = await getArticleById(id);
+
+		if (row != false)
+		{
+			const {title, body} = row[0];
+			res.render(
+			    'article/edit', {error: req.flash('error'), title, body});
+		}
+		else
+		{
+			res.status(404).send('not found');
+		}
+	}
+	catch (e)
+	{
+		console.log('getEdit failed ' + e);
+		res.status(500);
+	}
+}
+
 module.exports = {
 	articles,
 	getCreate,
 	postCreate,
-	articleById
+	articleById,
+	getEdit
 };
