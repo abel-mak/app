@@ -11,7 +11,7 @@
 		<link rel=stylesheet href="/css/article.css">
 	</head>
 	<body>
-		<%- include('../components/header.ejs', {user, error}) %>
+		<%- include('../components/header.ejs', {user, error, success}) %>
 		<div class="container" style="background: #9b95a036;">
 		<!--	<% for(let i = 0; i < data.length; i++){%>
 			<div class="article_container">
@@ -26,57 +26,12 @@
 			</div>
 			<% } %> -->
 			<% for(let i = 0; i < data.length; i++){%>
-			<div class="row">
-				<div class="col">
-					<div class="ibox">
-						<div class="ibox-content">
-							<a ui-sref="app.article" class="btn-link">
-								<h2>
-									 <%= data[i].title %>
-								</h2>
-							</a>
-							<p class="lead">
-								<%=data[i].body %>
-							</p>
-							<div class="small m-b-xs">
-								<strong>Adam Novak</strong> 
-								<span class="text-muted">
-									<i class="fa fa-clock-o"></i> 28th Oct 2015</span>
-							</div>
-							<div class="row">
-								<div class="col-md-4">
-									<div class="small text-right">
-										<h5>Stats:</h5>
-										<div> <i class="fa fa-comments"> </i>
-											56 comments 
-										</div>
-										<i class="fa fa-eye"> </i>
-										144 views
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="small text-right">
-										<h5>Actions:</h5>
-										<div> <i class="fa fa-pencil"> </i>
-											edit
-										</div>
-										<i class="fa fa-flag"> </i>
-										report
-									</div>
-								</div>
-								<div class="col-md-4">
-									<h5>Tags:</h5>
-									<button class="btn btn-primary btn-xs" type="button">
-										Model</button>
-									<button class="btn btn-white btn-xs" type="button">
-										Publishing</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
+				<%- include("../components/articleContent", 
+				{
+					id: data[i].id, 
+					title: data[i].title,
+					body: data[i].body
+					}) %>
 			<% } %>
 	</body>
 </html>

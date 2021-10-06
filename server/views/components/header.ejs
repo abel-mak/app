@@ -15,11 +15,16 @@
 	</ul>
 </header>-->
 <% if (error.length){ %>
-<div class="alert alert-dismissible alert-danger">
+<div class="notif alert alert-dismissible alert-danger">
   <strong>Oh snap!</strong> 
   <a href="#" class="alert-link"><%= error%></a> 
 </div>
-<%}%>
+<%} else if (success.length) {%>
+<div class="notif alert alert-dismissible alert-success">
+  <strong>Well done!</strong> 
+  <a href="#" class="alert-link"><%=success%></a>.
+</div>
+<% } %>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid" id="css-navbar">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -91,14 +96,14 @@
 		});
 </script>
 <%}%>
-<% if (error.length) { %>
+<% if (error.length || success.length) { %>
 <script>
-	const notif = document.querySelector(".alert-danger");
+	const notif = document.querySelector(".notif");
 	const height = document.querySelector(".container-fluid").offsetHeight;
 
 	setTimeout(function ()
 		{
-			notif.style.top = height * -1;
+			notif.style.top = 2 * height * -1;
 		}, 2000);
 </script>
 <% } %>

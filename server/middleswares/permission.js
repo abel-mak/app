@@ -11,7 +11,7 @@ async function permission(req, res, next)
 			return;
 		}
 		const user_id = req.user.id;
-		const {id}    = req.body;
+		const id    = req.body.id || req.id;
 		const row     = await getArticleById(id);
 
 		if (row == false)
@@ -25,7 +25,7 @@ async function permission(req, res, next)
 			next();
 		else
 		{
-			req.error = {code: 401, error: 'permisson needed'};
+			req.error = {code: 401, message: 'permisson needed'};
 			// res.status(401).send({error: 'permisson needed'});
 			next();
 		}

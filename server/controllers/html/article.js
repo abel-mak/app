@@ -1,4 +1,4 @@
-const {getArticles, addArticle, getArticleById} =
+const {getArticles, addArticle, getArticleById, updateArticle} =
     require('../../models/article');
 
 async function articles(req, res)
@@ -15,7 +15,12 @@ async function articles(req, res)
 			    const {id, title, body} = e;
 			    data.push({id, title, body});
 		    });
-		res.render('article/article', {data, user, error: req.flash('error')});
+		res.render('article/article', {
+			data,
+			user,
+			error: req.flash('error'),
+			success: req.flash('success')
+		});
 	}
 	catch (e)
 	{
@@ -40,9 +45,12 @@ async function articleById(req, res)
 		if (row != false)
 		{
 			const {title, body} = row[0];
-			res.render(
-			    'article/articleById',
-			    {title, body, error: req.flash('error')});
+			res.render('article/articleById', {
+				title,
+				body,
+				error: req.flash('error'),
+				success: req.flash('success')
+			});
 		}
 		else
 		{
@@ -99,7 +107,6 @@ async function postCreate(req, res)
 		const insertId      = queryRes.insertId;
 
 		// TODO redirect to created article
-		console.log('inserted articel ' + insertId);
 		res.redirect(302, '/article');
 	}
 	catch (e)
@@ -113,14 +120,25 @@ async function getEdit(req, res)
 {
 	try
 	{
-		const id  = req.query.id;
+		const error = req.error;
+		if (error)
+		{
+			req.flash('error', error.message);
+			res.redirect(302, '/article');
+			return;
+		}
+		const id  = req.id;
 		const row = await getArticleById(id);
 
 		if (row != false)
 		{
 			const {title, body} = row[0];
-			res.render(
-			    'article/edit', {error: req.flash('error'), title, body});
+			res.render('article/edit', {
+				error: req.flash('error'),
+				title,
+				body,
+				success: req.flash('success')
+			});
 		}
 		else
 		{
@@ -134,10 +152,36 @@ async function getEdit(req, res)
 	}
 }
 
+async function postEdit(req, res)
+{
+	try
+	{
+		const error = req.error;
+		if (error)
+		{
+			req.flash('error', error.message);
+			res.redirect(302, '/article');
+			return;
+		}
+		const id            = req.id;
+		const {title, body} = req.body;
+		const row           = await updateArticle(id, title, body);
+
+		req.flash("success", "edited successfuly");
+		res.status(200).redirect(302, '/article/' + id);
+	}
+	catch (e)
+	{
+		console.log('getEdit failed ' + e);
+		res.status(500);
+	}
+}
+
 module.exports = {
 	articles,
 	getCreate,
 	postCreate,
 	articleById,
-	getEdit
+	getEdit,
+	postEdit
 };

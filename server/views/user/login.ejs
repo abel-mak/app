@@ -4,7 +4,7 @@
 	<link rel="stylesheet" href="/css/form.css">
 </head>
 </body>
-<%- include('../components/header.ejs', {user:undefined, error}) %>
+<%- include('../components/header.ejs', {user:undefined, error, success}) %>
 <div class="container">
 	<form method="POST" action="/auth/login" autocomplete="off">
 		<label for"username">username</label>

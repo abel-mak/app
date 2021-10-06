@@ -3,7 +3,9 @@ const {add, getSession, setSession, destroySession} =
 
 function getLogin(req, res)
 {
-	res.render('user/login', {error: req.flash('error')});
+	res.render(
+	    'user/login',
+	    {error: req.flash('error'), success: req.flash('success')});
 }
 
 async function postLogin(req, res)
@@ -20,6 +22,7 @@ async function postLogin(req, res)
 		const tmp  = await setSession(id);
 		const row  = await getSession(id);
 
+		req.flash('success', 'successfully logged.in');
 		res.cookie('sessionId', row[0].sessionId).redirect(301, '/article');
 	}
 	catch (e)
@@ -49,7 +52,8 @@ async function postSignup(req, res)
 		const {firstName, lastName, username, password} = req.body;
 		const user = await add(firstName, lastName, username, password);
 
-		res.redirect(301, '/login');
+		req.flash('success', 'successfully signed.up');
+		res.redirect(301, '/auth/login');
 	}
 	catch (e)
 	{

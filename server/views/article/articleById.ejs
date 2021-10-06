@@ -2,12 +2,12 @@
 <html>
 <head>
 <title></title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/index.css">
 <link rel="stylesheet" href="/css/singleArticle.css">
-<link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-	<%- include('../components/header.ejs', {user: undefined, error}) %>
+	<%- include('../components/header.ejs', {user: undefined, error, success}) %>
 	<div class="container">
 		<h1><%= title %></h1>
 		<p><%= body %></p>

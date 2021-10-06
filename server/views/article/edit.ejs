@@ -7,12 +7,12 @@
 <link rel="stylesheet" href="/css/edit.css">
 </head>
 <body>
-	<%- include("../components/header.ejs", {user:undefined, error}) %>
+	<%- include("../components/header.ejs", {user:undefined, error, success}) %>
 	<div class="container">
 		<div class="form-container">
-			<form class="my-create" id="create" method="POST" action="/article/edit">
+			<form class="my-create" id="create" method="POST" action="?">
 				<input class="title"type="text" 
-				name="title" placeholder="Title..."value=<%=title%>>
+				name="title" placeholder="Title..."value="<%=title%>">
 			</form>
 			<textarea placeholder="Body..." class="body" name="body" form="create"><%=body%></textarea>
 			<button type="submit" form="create">submit</button>
