@@ -15,7 +15,7 @@ async function postLogin(req, res)
 		if (req.error)
 		{
 			req.flash('error', req.error.message);
-			res.status(req.error.code).redirect(301, '/auth/login');
+			res.redirect(301, '/auth/login');
 			return;
 		}
 		const {id} = req.user;

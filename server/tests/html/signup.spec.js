@@ -1,19 +1,19 @@
 const chai     = require('chai');
 const chaiHttp = require('chai-http');
-const app      = require('../app');
+const app      = require('../../app');
 const {expect} = chai;
 
 chai.use(chaiHttp);
 
 describe(
-    'test user signup',
+    'html test user signup',
     function()
     {
-	    it('should return error as it missing fields',
+	    it('should redirect to signup as it missing fields',
 	       function(done)
 	       {
 		       chai.request(app)
-		           .post('/api/v1/auth/signup')
+		           .post('/auth/signup')
 		           .send({
 			           username: 'user1',
 			           firstName: '',
@@ -22,17 +22,15 @@ describe(
 		           })
 		           .end(function(err, res)
 		                {
-			                expect(res.status).to.be.equal(400);
-			                expect(res.body).to.have.property('error').equal(
-			                    'missing required fields');
+			                expect(res).to.redirectTo(/(auth\/signup)$/);
 			                done();
 		                });
 	       });
-	    it('should return error as user already exist',
+	    it('should redirect to signup as user already exist',
 	       function(done)
 	       {
 		       chai.request(app)
-		           .post('/api/v1/auth/signup')
+		           .post('/auth/signup')
 		           .send({
 			           username: 'cdcc',
 			           firstName: 'cdccfirstname',
@@ -41,9 +39,7 @@ describe(
 		           })
 		           .end(function(err, res)
 		                {
-			                expect(res.status).to.be.equal(400);
-			                expect(res.body).to.have.property('error').equal(
-			                    'user already exist');
+			                expect(res).to.redirectTo(/(auth\/signup)$/);
 			                done();
 		                });
 	       });

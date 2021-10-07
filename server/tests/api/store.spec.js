@@ -1,5 +1,5 @@
 const session    = require('express-session');
-const MysqlStore = require('../lib/store')(session);
+const MysqlStore = require('../../lib/store')(session);
 const express    = require('express');
 const chai       = require('chai');
 const chaiHttp   = require('chai-http');
