@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/singleArticle.css">
 </head>
 <body>
-	<%- include('../components/header.ejs', {user: undefined, error, success}) %>
+	<%- include('../components/header.ejs', {user, error, success}) %>
 	<div class="container">
 		<h1><%= title %></h1>
 		<p><%= body %></p>

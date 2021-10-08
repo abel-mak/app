@@ -6,9 +6,10 @@ const valideArticleById =
     require('../../middleswares/validations/valideArticleById');
 const permission = require('../../middleswares/permission');
 router.get('/', isLoggedIn, articles);
-router.get('/:id', valideArticleById, articleById);
+router.get('/id=:id', isLoggedIn, valideArticleById, articleById);
 router.get('/create', isLoggedIn, getCreate);
 router.post('/create', isLoggedIn, postCreate);
-router.get('/:id/edit', valideArticleById, getEdit);
-router.post('/:id/edit', isLoggedIn, valideArticleById, permission, postEdit);
+router.get('/id=:id/edit', valideArticleById, getEdit);
+router.post(
+    '/id=:id/edit', isLoggedIn, valideArticleById, permission, postEdit);
 module.exports = router;

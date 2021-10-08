@@ -19,11 +19,12 @@ async function postLogin(req, res)
 			return;
 		}
 		const {id} = req.user;
-		const tmp  = await setSession(id);
-		const row  = await getSession(id);
+		// const tmp  = await setSession(id);
+		// const row  = await getSession(id);
 
 		req.flash('success', 'successfully logged.in');
-		res.cookie('sessionId', row[0].sessionId).redirect(301, '/article');
+		req.session.user_id = id;
+		res.redirect(301, '/article');
 	}
 	catch (e)
 	{
@@ -71,9 +72,7 @@ async function postLogout(req, res)
 		{
 			throw new Error(error.message);
 		}
-		const {sessionId} = req.cookies;
-
-		await destroySession(sessionId);
+		req.session.user_id = undefined;
 		res.redirect(301, '/article');
 	}
 	catch (e)

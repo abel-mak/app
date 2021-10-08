@@ -2,7 +2,7 @@
 	<div class="col">
 		<div class="ibox">
 			<div class="ibox-content">
-				<a ui-sref="app.article" href="/article/<%= id %>"
+				<a ui-sref="app.article" href="/article/id=<%= id %>"
 							 class="btn-link">
 							 <h2>
 								 <%= title %>
@@ -32,7 +32,7 @@
 							<h5>Actions:</h5>
 							<div> <i class="fa fa-pencil"> </i>
 								<a class="btn-link" 
-									href="/article/<%= id %>/edit">edit</a>
+									href="/article/id=<%= id %>/edit">edit</a>
 							</div>
 							<i class="fa fa-flag"> </i>
 							report

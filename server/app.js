@@ -17,7 +17,7 @@ app.use(session({
 	store: new MysqlStore(),
 	secret: 'this is a secret',
 	name: 'test',
-	cookie: {maxAge: 60000},
+	cookie: {},
 	resave: false,
 	saveUninitialized: false
 }));

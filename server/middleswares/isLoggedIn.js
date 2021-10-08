@@ -1,27 +1,19 @@
-const {getUserBySessionId, isValidSession} = require('../models/users');
+const {getUserById} = require('../models/users');
 
 async function isLoggedIn(req, res, next)
 {
 	try
 	{
-		const sessionId = req.cookies.sessionId;
-		const row       = await getUserBySessionId(sessionId);
+		const user_id = req.session.user_id;
+		if (!user_id)
+		{
+			req.error = {code: 401, message: 'Unauthorized'};
+			// res.status(401).send({error: 'Unauthorized'});
+			next();
+			return;
+		}
+		const row = await getUserById(user_id);
 
-		if (row == false)
-		{
-			req.error = {code: 401, message: 'Unauthorized'};
-			// res.status(401).send({error: 'Unauthorized'});
-			next();
-			return;
-		}
-		const isValid = await isValidSession(sessionId);
-		if (isValid == false || isValid.result == false)
-		{
-			req.error = {code: 401, message: 'Unauthorized'};
-			// res.status(401).send({error: 'Unauthorized'});
-			next();
-			return;
-		}
 		const {id, firstName, lastName, username} = row[0];
 		req.user = {id, firstName, lastName, username};
 		next();

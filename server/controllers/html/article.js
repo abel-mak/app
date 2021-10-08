@@ -34,18 +34,19 @@ async function articleById(req, res)
 	try
 	{
 		const error = req.error;
-		const id    = req.id;
-		if (error || !id)
+		if (error && error.code == 404)
 		{
-			res.status(404).render('404');
+			res.status(error.code).render('404');
 			return;
 		}
+		const id  = req.id;
 		const row = await getArticleById(id);
 
 		if (row != false)
 		{
 			const {title, body} = row[0];
 			res.render('article/articleById', {
+				user: req.user,
 				title,
 				body,
 				error: req.flash('error'),
@@ -81,7 +82,11 @@ async function getCreate(req, res)
 				throw new Error(error);
 		}
 		else
-			res.render('article/create', {error: req.flash('error')});
+			res.render('article/create', {
+				error: req.flash('error'),
+				success: req.flash('success'),
+				user: req.user
+			});
 	}
 	catch (e)
 	{
@@ -167,8 +172,8 @@ async function postEdit(req, res)
 		const {title, body} = req.body;
 		const row           = await updateArticle(id, title, body);
 
-		req.flash("success", "edited successfuly");
-		res.status(200).redirect(302, '/article/' + id);
+		req.flash('success', 'edited successfuly');
+		res.redirect(302, '/article/id=' + id);
 	}
 	catch (e)
 	{

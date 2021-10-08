@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/create.css">
 </head>
 <body>
-	<%- include("../components/header.ejs", {user:undefined, error}) %>
+	<%- include("../components/header.ejs", {user, error, success}) %>
 	<div class="container">
 		<div class="form-container">
 			<form class="my-create" id="create" method="POST" action="/article/create">

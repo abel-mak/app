@@ -48,6 +48,14 @@ async function getUserByUserName(username)
 	return query(sql, [params]);
 }
 
+async function getUserById(id)
+{
+	const sql    = 'SELECT id, firstName, lastName, password FROM user WHERE ?';
+	const params = {id};
+
+	return query(sql, [params]);
+}
+
 async function destroySession(sessionId)
 {
 	const sql    = 'UPDATE user SET ? WHERE sessionId = ?';
@@ -83,5 +91,6 @@ module.exports = {
 	getUserByUserName,
 	destroySession,
 	getUserBySessionId,
-	isValidSession
+	isValidSession,
+	getUserById
 };
