@@ -11,4 +11,18 @@ h2
 {
 	height:30%;
 }
+.vote
+{
+	margin-top:1em;
+}
 
+.vote-elem
+{
+	cursor:pointer;
+	color: #868686;
+}
+
+.my-after-vote
+{
+	color:black;
+}
