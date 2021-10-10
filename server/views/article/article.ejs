@@ -39,5 +39,25 @@
 					color:black;
 				}
 			</style>
+			<script>
+				const btn = document.querySelector(".vote-elem");
+		 		
+		 btn.addEventListener("click", (e) =>
+		 {
+		 	const tmpData = e.currentTarget.dataset.id;	
+		 	
+		 vote = tmpData.split("_")[0];
+		 	article_id = tmpData.split("_")[1];
+		 console.log(`article/id=${article_id}/${vote}`);
+		 	fetch(`article/id=${article_id}/${vote}`, {method:"POST"})
+		 .then(res => 
+		 	{
+		 		if (res.status != 200)
+		 			window.location.reload();
+		 		return res.json();
+		 	})
+		 .then(res => console.log(res));
+		 })
+			</script>
 	</body>
 </html>

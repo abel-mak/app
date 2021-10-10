@@ -1,5 +1,11 @@
-const {getArticles, addArticle, getArticleById, updateArticle} =
-    require('../../models/article');
+const {
+	getArticles,
+	addArticle,
+	getArticleById,
+	updateArticle,
+	upvote,
+	downvote
+} = require('../../models/article');
 
 async function articles(req, res)
 {
@@ -8,6 +14,7 @@ async function articles(req, res)
 		const rows = await getArticles();
 		const data = [];
 		const user = req.user;
+
 
 		rows.forEach(
 		    e =>
@@ -182,11 +189,61 @@ async function postEdit(req, res)
 	}
 }
 
+async function articleUpvote(req, res)
+{
+	try
+	{
+		const error = req.error;
+		if (error)
+		{
+			req.flash('error', error.message);
+			res.status(error.code).send(error.message);
+			return;
+		}
+		const article_id = req.id;
+		const user_id    = req.session.user_id;
+
+		upvote(article_id, user_id);
+		res.json({error: null, message: 'upvoted successfuly'});
+	}
+	catch (e)
+	{
+		console.log('articleUpvote failed' + e);
+		res.status(500);
+	}
+}
+
+async function articleDownvote(req, res)
+{
+	try
+	{
+		const error = req.error;
+		if (error)
+		{
+			req.flash('error', error.message);
+			res.status(error.code).send(error.message);
+			return;
+		}
+		const article_id = req.id;
+		const user_id    = req.session.user_id;
+
+		downvote(article_id, user_id);
+		res.json({error: null, message: 'downvoted successfuly'});
+	}
+	catch (e)
+	{
+		console.log('articleDownvote failed' + e);
+		res.status(500);
+	}
+}
+
 module.exports = {
 	articles,
 	getCreate,
 	postCreate,
 	articleById,
 	getEdit,
-	postEdit
+	postEdit,
+	articleUpvote,
+	articleDownvote
 };

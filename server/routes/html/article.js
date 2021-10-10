@@ -1,6 +1,14 @@
 const router = require('express').Router();
-const {articles, getCreate, postCreate, articleById, getEdit, postEdit} =
-    require('../../controllers/html/article');
+const {
+	articles,
+	getCreate,
+	postCreate,
+	articleById,
+	getEdit,
+	postEdit,
+	articleUpvote,
+	articleDownvote
+}                = require('../../controllers/html/article');
 const isLoggedIn = require('../../middleswares/isLoggedIn');
 const valideArticleById =
     require('../../middleswares/validations/valideArticleById');
@@ -12,4 +20,6 @@ router.post('/create', isLoggedIn, postCreate);
 router.get('/id=:id/edit', valideArticleById, getEdit);
 router.post(
     '/id=:id/edit', isLoggedIn, valideArticleById, permission, postEdit);
+router.post('/id=:id/upvote', isLoggedIn, valideArticleById, articleUpvote);
+router.post('/id=:id/downvote' ,isLoggedIn, valideArticleById, articleDownvote);
 module.exports = router;

@@ -35,9 +35,33 @@ async function getArticleById(id)
 	return query(sql, [params]);
 }
 
+async function upvote(article_id, user_id)
+{
+	const sql =
+	    'INSERT INTO article_vote (article_id, user_id, vote) VALUES ?' +
+	    ' ON DUPLICATE KEY UPDATE vote=1';
+	const params = [[article_id, user_id, 1]];
+
+	// console.log(mysql.format(sql, [params]));
+	return query(sql, [params]);
+}
+
+async function downvote(article_id, user_id)
+{
+	const sql =
+	    'INSERT INTO article_vote (article_id, user_id, vote) VALUES ?' +
+	    ' ON DUPLICATE KEY vote=-1';
+	const params = [[article_id, user_id, 1]];
+
+	// console.log(mysql.format(sql, [params]));
+	return query(sql, [params]);
+}
+
 module.exports = {
 	addArticle,
 	getArticles,
 	updateArticle,
-	getArticleById
+	getArticleById,
+	upvote,
+	downvote,
 };
