@@ -11,11 +11,31 @@ async function addArticle(title, body, user_id)
 	return query(sql, [params]);
 }
 
-async function getArticles()
-{
-	const sql = 'SELECT * FROM article';
+// SELECT * FROM (SELECT SUM(article_vote.vote) as vote, article.id as
+// article_id ,article.title,article.body FROM article_vote RIGHT JOIN article
+// ON article_id = article.id
+// GROUP BY article.id) as votes LEFT JOIN
+//(SELECT vote, article_id FROM article_vote WHERE user_id = 1) as user_votes
+// ON votes.article_id = user_votes.article_id;
+//======================
+// SELECT SUM(article_vote.vote) as vote, article.id, article.title,
+// article.body FROM article_vote RIGHT JOIN article ON article_id = article.id
+// GROUP BY article.id;
 
-	return query(sql);
+// votes.id == article.id
+
+async function getArticles(user_id)
+{
+	const sql =
+	    'SELECT * FROM (SELECT SUM(article_vote.vote) as vote, article.id' +
+	    ' ,article.title,article.body FROM article_vote' +
+	    ' RIGHT JOIN article ON article_id = article.id' +
+	    ' GROUP BY article.id) as votes LEFT JOIN' +
+	    ' (SELECT vote as user_vote, article_id FROM article_vote WHERE user_id = ?)' +
+	    ' as all_user_votes ON votes.id = all_user_votes.article_id;';
+	const params = [user_id];
+
+	return query(sql, [params]);
 }
 
 async function updateArticle(id, title, body)
@@ -39,7 +59,7 @@ async function upvote(article_id, user_id)
 {
 	const sql =
 	    'INSERT INTO article_vote (article_id, user_id, vote) VALUES ?' +
-	    ' ON DUPLICATE KEY UPDATE vote=1';
+	    ' ON DUPLICATE KEY UPDATE vote= (SELECT IF(vote=1, 0, 1))';
 	const params = [[article_id, user_id, 1]];
 
 	// console.log(mysql.format(sql, [params]));
@@ -50,7 +70,7 @@ async function downvote(article_id, user_id)
 {
 	const sql =
 	    'INSERT INTO article_vote (article_id, user_id, vote) VALUES ?' +
-	    ' ON DUPLICATE KEY vote=-1';
+	    ' ON DUPLICATE KEY UPDATE vote=(SELECT IF(vote=-1, 0, -1))';
 	const params = [[article_id, user_id, 1]];
 
 	// console.log(mysql.format(sql, [params]));

@@ -11,17 +11,16 @@ async function articles(req, res)
 {
 	try
 	{
-		const rows = await getArticles();
-		const data = [];
-		const user = req.user;
+		const user_id = req.session.user_id;
+		const rows    = await getArticles(user_id);
+		const data    = [];
+		const user    = req.user;
 
 
-		rows.forEach(
-		    e =>
-		    {
-			    const {id, title, body} = e;
-			    data.push({id, title, body});
-		    });
+		rows.forEach(e => {
+			const {id, title, body, vote, user_vote} = e;
+			data.push({id, title, body, vote, user_vote});
+		});
 		res.render('article/article', {
 			data,
 			user,
