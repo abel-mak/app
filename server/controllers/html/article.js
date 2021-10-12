@@ -4,7 +4,8 @@ const {
 	getArticleById,
 	updateArticle,
 	upvote,
-	downvote
+	downvote,
+	voteStatus
 } = require('../../models/article');
 
 async function articles(req, res)
@@ -199,11 +200,18 @@ async function articleUpvote(req, res)
 			res.status(error.code).send(error.message);
 			return;
 		}
-		const article_id = req.id;
-		const user_id    = req.session.user_id;
+		const article_id             = req.id;
+		const user_id                = req.session.user_id;
+		const row                    = await upvote(article_id, user_id);
+		const status                 = await voteStatus(article_id, user_id);
+		const {user_vote, all_votes} = status[0];
 
-		upvote(article_id, user_id);
-		res.json({error: null, message: 'upvoted successfuly'});
+		res.json({
+			error: null,
+			message: 'upvoted successfuly',
+			user_vote,
+			all_votes
+		});
 	}
 	catch (e)
 	{
@@ -223,11 +231,18 @@ async function articleDownvote(req, res)
 			res.status(error.code).send(error.message);
 			return;
 		}
-		const article_id = req.id;
-		const user_id    = req.session.user_id;
+		const article_id             = req.id;
+		const user_id                = req.session.user_id;
+		const row                    = await downvote(article_id, user_id);
+		const status                 = await voteStatus(article_id, user_id);
+		const {user_vote, all_votes} = status[0];
 
-		downvote(article_id, user_id);
-		res.json({error: null, message: 'downvoted successfuly'});
+		res.json({
+			error: null,
+			message: 'downvoted successfuly',
+			user_vote,
+			all_votes
+		});
 	}
 	catch (e)
 	{

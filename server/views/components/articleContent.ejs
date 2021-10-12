@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col">
 				<div data-id="upvote_<%=id%>" 
-		 class="vote-elem <%= (user_vote == 1 ) ? 'my-after-vote' : '' %> text-center">
+		 class="upvote vote-elem <%= (user_vote == 1 ) ? 'my-after-vote' : '' %> text-center">
 				<i class="fa fa-caret-up fa-4x" aria-hidden="false">
 				</i>
 				</div>
@@ -11,7 +11,7 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<div class=" text-center" style="font-size:20px;">
+				<div class="vote-status text-center" style="font-size:20px;">
 					<%= (vote) ? vote : 0 %>
 			</div>
 			</div>
@@ -19,7 +19,8 @@
 		<div class="row">
 			<div class="col">
 				<div data-id="downvote_<%=id%>" 
-		class="vote-elem <%= (user_vote == -1 ) ? 'my-after-vote' : '' %> text-center">
+		class="downvote vote-elem <%= (user_vote == -1 ) 
+		? 'my-after-vote' : '' %> text-center">
 					<i class="fa fa-caret-down fa-4x" aria-hidden="false">
 					</i>
 				</div>

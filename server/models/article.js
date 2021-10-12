@@ -31,7 +31,8 @@ async function getArticles(user_id)
 	    ' ,article.title,article.body FROM article_vote' +
 	    ' RIGHT JOIN article ON article_id = article.id' +
 	    ' GROUP BY article.id) as votes LEFT JOIN' +
-	    ' (SELECT vote as user_vote, article_id FROM article_vote WHERE user_id = ?)' +
+	    ' (SELECT' +
+	    ' vote as user_vote, article_id FROM article_vote WHERE user_id = ?)' +
 	    ' as all_user_votes ON votes.id = all_user_votes.article_id;';
 	const params = [user_id];
 
@@ -65,7 +66,13 @@ async function upvote(article_id, user_id)
 	// console.log(mysql.format(sql, [params]));
 	return query(sql, [params]);
 }
-
+// SELECT votes.sum, votes.article_id, all_user_votes.vote
+// FROM (SELECT SUM(vote) as sum, article_id FROM article_vote WHERE article_id
+// = 9)
+//  as votes LEFT JOIN (SELECT article_id, vote FROM article_vote WHERE user_id
+//  = 10)
+// as all_user_votes ON votes.article_id = all_user_votes.article_id;
+//
 async function downvote(article_id, user_id)
 {
 	const sql =
@@ -77,6 +84,19 @@ async function downvote(article_id, user_id)
 	return query(sql, [params]);
 }
 
+async function voteStatus(article_id, user_id)
+{
+	const sql = 'SELECT' +
+	    ' votes.sum all_votes,votes.article_id,all_user_votes.vote as user_vote' +
+	    ' FROM (SELECT' +
+	    ' SUM(vote) as sum, article_id FROM article_vote WHERE article_id = ?)' +
+	    ' as votes LEFT JOIN (SELECT' +
+	    ' article_id, vote FROM article_vote WHERE user_id = ?)' +
+	    ' as all_user_votes ON votes.article_id = all_user_votes.article_id;';
+	const params = [article_id, user_id];
+	return query(sql, params);
+}
+
 module.exports = {
 	addArticle,
 	getArticles,
@@ -84,4 +104,5 @@ module.exports = {
 	getArticleById,
 	upvote,
 	downvote,
+	voteStatus
 };
