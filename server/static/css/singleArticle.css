@@ -2,3 +2,14 @@ h1
 {
 	margin:2em;
 }
+
+p
+{
+	margin-bottom:5em;
+}
+
+.comment-form-btn
+{
+	border: 2px solid black;
+    margin-top: 1em;
+}

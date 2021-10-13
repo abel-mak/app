@@ -11,6 +11,19 @@
 	<div class="container">
 		<h1><%= title %></h1>
 		<p><%= body %></p>
+		<form action="#" method="post">
+			<div class="row">
+				<div class="col-12">
+					<textarea name="message" class="form-control" id="message" 
+						cols="30" rows="10" 
+						placeholder="Comment..." style="height:5em"></textarea>
+				</div>
+				<div class="col-3 text-center">
+					<button class="btn comment-form-btn mt-30 w-100" 
+			 type="submit">Submit Comment</button>
+				</div>
+			</div>
+		</form>
 	</div>
 </body>
 </html>
