@@ -97,6 +97,16 @@ async function voteStatus(article_id, user_id)
 	return query(sql, params);
 }
 
+async function addComment(article_id, author, content, reply_to)
+{
+	const sql =
+	    'INSERT INTO comments (article_id, author, content, reply_to) VALUES ?';
+
+	const params = [[article_id, author, content, reply_to]];
+	// console.log(mysql.format(sql, [params]));
+	return query(sql, [params]);
+}
+
 module.exports = {
 	addArticle,
 	getArticles,
@@ -104,5 +114,6 @@ module.exports = {
 	getArticleById,
 	upvote,
 	downvote,
-	voteStatus
+	voteStatus,
+	addComment
 };

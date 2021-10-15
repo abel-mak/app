@@ -17,5 +17,6 @@ CREATE TABLE IF NOT EXISTS article (
 	title varchar(255) NOT NULL DEFAULT 'NO TITLE',
 	body text(1000) NOT NULL,
 	user_id int(10) unsigned NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES user(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
