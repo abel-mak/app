@@ -5,7 +5,9 @@ const {
 	updateArticle,
 	upvote,
 	downvote,
-	voteStatus
+	voteStatus,
+	addComment,
+	getComment
 } = require('../../models/article');
 
 async function articles(req, res)
@@ -46,16 +48,19 @@ async function articleById(req, res)
 			res.status(error.code).render('404');
 			return;
 		}
-		const id  = req.id;
-		const row = await getArticleById(id);
+		const id       = req.id;
+		const row      = await getArticleById(id);
+		const comments = await getComment(id);
 
 		if (row != false)
 		{
-			const {title, body} = row[0];
+			const {title, body, id} = row[0];
 			res.render('article/articleById', {
 				user: req.user,
 				title,
 				body,
+				id,
+				comments,
 				error: req.flash('error'),
 				success: req.flash('success')
 			});
@@ -251,6 +256,30 @@ async function articleDownvote(req, res)
 	}
 }
 
+async function postComment(req, res)
+{
+	try
+	{
+		const error = req.error;
+		if (error)
+		{
+			req.flash('error', error.message);
+			res.redirect(302, '/article');
+			return;
+		}
+		const article_id = req.body.id;
+		const author     = req.session.user_id;
+		const content    = req.body.content;
+		const reply_to   = null;
+		const row = await addComment(article_id, author, content, reply_to);
+
+		res.redirect(302, `/article/id=${article_id}`);
+	}
+	catch (e)
+	{
+	}
+}
+
 module.exports = {
 	articles,
 	getCreate,
@@ -259,5 +288,6 @@ module.exports = {
 	getEdit,
 	postEdit,
 	articleUpvote,
-	articleDownvote
+	articleDownvote,
+	postComment
 };

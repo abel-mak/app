@@ -107,6 +107,22 @@ async function addComment(article_id, author, content, reply_to)
 	return query(sql, [params]);
 }
 
+async function getComment(article_id)
+{
+	// const sql    = 'SELECT * FROM comments WHERE ?';
+	const sql = 'SELECT user.username, comment_id, article_id, author,' +
+	    ' UNIX_TIMESTAMP(created_at) * 1000 AS created_at' +
+	    ' ,modified_at, content, reply_to  FROM comments INNER JOIN' +
+	    ' (SELECT username, id FROM user) as user ON user.id = comments.author' +
+	    ' AND ?';
+	const params = {article_id};
+
+	// console.log(mysql.format(sql, [params]));
+	return query(sql, [params]);
+}
+
+getComment(10);
+
 module.exports = {
 	addArticle,
 	getArticles,
@@ -115,5 +131,6 @@ module.exports = {
 	upvote,
 	downvote,
 	voteStatus,
-	addComment
+	addComment,
+	getComment
 };

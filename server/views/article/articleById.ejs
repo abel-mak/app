@@ -41,10 +41,11 @@
 					<div class="d-flex flex-row add-comment-section mt-4 mb-4">
 						<!--<img class="img-fluid img-responsive rounded-circle me-2" 
 			   width="90" src="https://i.imgur.com/qdiP4DB.jpg" > -->
-						<form action="#" method="post" class="w-100">
+						<form action="./comment" method="post" class="w-100">
+							<input type="hidden" name="id" value="<%= id %>" /> 
 							<div class="row">
 								<div class="col-10">
-									<textarea name="message" class="form-control" 
+									<textarea name="content" class="form-control" 
 										id="message" cols="30" rows="10" 
 										placeholder="Comment..." 
 										style="height:5em"></textarea>
@@ -76,10 +77,31 @@ laboris nisi ut aliquip ex ea commodo consequat.</span></div>
 								<h6 class="ms-2 mt-1">Reply</h6>
 							</div>
 						</div>
+						<% for(let i = 0; i < comments.length; i++){%>
+						<div class="d-flex flex-row align-items-center">
+							<h5 class="me-2 fst-italic"><%= comments[i].username %></h5>
+							<span class="dot mb-1 fs-6"></span>
+							<span style="display:none;"
+								class="creation_time mb-1 ms-2 ">
+								<%= comments[i].created_at%></span>
+						</div>
+						<div class="comment-text-sm">
+							<span><%= comments[i].content %></span></div>
+						<div class="reply-section">
+							<div class="d-flex flex-row align-items-center voting-icons">
+								<i class="fa fa-sort-up fa-2x mt-3"></i>
+								<span class="ms-2">0</span><span class="dot ms-2"></span>
+								<i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i>
+								<h6 class="ms-2 mt-1">Reply</h6>
+							</div>
+						<% } %>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
+<script src="/script/articleById.js">
+</script>
 </html>

@@ -6,7 +6,7 @@ const app          = express();
 const flash        = require('connect-flash');
 const session      = require('express-session');
 const MysqlStore   = require('./lib/store')(session);
-const path         = require('path');
+const path    = require('path');
 
 
 
