@@ -267,9 +267,9 @@ async function postComment(req, res)
 			res.redirect(302, '/article');
 			return;
 		}
-		const article_id = req.body.id;
+		const article_id = req.id;
 		const author     = req.session.user_id;
-		const content    = req.body.content;
+		const content    = req.content;
 		const reply_to   = null;
 		const row = await addComment(article_id, author, content, reply_to);
 

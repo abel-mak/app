@@ -25,6 +25,6 @@ router.post(
     '/id=:id/edit', isLoggedIn, valideArticleById, permission, postEdit);
 router.post('/id=:id/upvote', isLoggedIn, valideArticleById, articleUpvote);
 router.post('/id=:id/downvote', isLoggedIn, valideArticleById, articleDownvote);
-router.post('/comment', isLoggedIn, valideComment, postComment);
+router.post('/comment', isLoggedIn, valideComment , postComment);
 
 module.exports = router;

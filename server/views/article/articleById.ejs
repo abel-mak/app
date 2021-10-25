@@ -16,7 +16,7 @@
 		<div class="mt-5 row">
 			<div class="col-md-12">
 				<h1><%= title %></h1>
-				<p><%= body %></p>
+				<p class="s-body"><%= body %></p>
 			</div>
 		</div>
 	<!--	<form action="#" method="post">
@@ -64,7 +64,7 @@
 						<div class="d-flex flex-row align-items-center">
 							<h5 class="me-2">Corey oates</h5>
 							<span class="dot mb-1"></span>
-							<span class="mb-1 ms-2">4 hours ago</span>
+							<span class="mb-1 ms-2 text-muted">4 hours ago</span>
 						</div>
 						<div class="comment-text-sm">
 							<span>uis nostrud exercitation ullamco
@@ -82,11 +82,14 @@ laboris nisi ut aliquip ex ea commodo consequat.</span></div>
 							<h5 class="me-2 fst-italic"><%= comments[i].username %></h5>
 							<span class="dot mb-1 fs-6"></span>
 							<span style="display:none;"
-								class="creation_time mb-1 ms-2 ">
+								class="creation_time mb-1 ms-2 text-muted">
 								<%= comments[i].created_at%></span>
 						</div>
 						<div class="comment-text-sm">
-							<span><%= comments[i].content %></span></div>
+							<% for (const line of comments[i].content.split("<br>")) { %>
+    							<p><%= line %></p>
+							<% } %>
+						</div>
 						<div class="reply-section">
 							<div class="d-flex flex-row align-items-center voting-icons">
 								<i class="fa fa-sort-up fa-2x mt-3"></i>

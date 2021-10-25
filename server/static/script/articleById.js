@@ -1,4 +1,3 @@
-
 function getDays(ms)
 {
 	const dayMs = 86400000;
@@ -47,7 +46,7 @@ function displayElapsed(ms)
 	else if (getMinutes(ms))
 		return getMinutes(ms);
 	else
-		return '0 second';
+		return '0 seconds';
 }
 
 window.onload = function() {

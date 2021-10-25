@@ -5,6 +5,11 @@
 
 p
 {
+	margin:0;
+}
+
+.s-body
+{
 	margin-bottom:5em;
 }
 
